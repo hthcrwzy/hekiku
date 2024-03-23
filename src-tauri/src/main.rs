@@ -1,6 +1,7 @@
 // Prevents additional console window on Windows in release, DO NOT REMOVE!!
 #![cfg_attr(not(debug_assertions), windows_subsystem = "windows")]
 
+use encoding_rs;
 use std::fs;
 
 use tauri::api::dialog::blocking::FileDialogBuilder;
@@ -18,5 +19,9 @@ async fn open() -> String {
     let Some(path) = FileDialogBuilder::new().pick_file() else {
         return String::new();
     };
-    fs::read_to_string(path).unwrap_or_default()
+    let Ok(s) = fs::read(path) else {
+        return String::new();
+    };
+    let (res, _, _) = encoding_rs::SHIFT_JIS.decode(&s);
+    res.into_owned()
 }
