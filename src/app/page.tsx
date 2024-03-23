@@ -9,7 +9,10 @@ export default function Home() {
           <h1 className="font-extrabold text-5xl">Welcome to Hekiku!</h1>
           <h2 className="opacity-75">AOZORA BUNKO READER</h2>
         </header>
-        <Link href="reader" className="justify-center text-center">
+        <Link
+          href="reader"
+          className="justify-center text-center text-2xl underline underline-offset-1 hover:no-underline"
+        >
           Open and Read
         </Link>
       </div>
