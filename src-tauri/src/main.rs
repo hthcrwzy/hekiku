@@ -1,6 +1,8 @@
 // Prevents additional console window on Windows in release, DO NOT REMOVE!!
 #![cfg_attr(not(debug_assertions), windows_subsystem = "windows")]
 
+use std::path::PathBuf;
+
 use tauri::api::dialog::blocking::FileDialogBuilder;
 
 fn main() {
@@ -12,8 +14,9 @@ fn main() {
 
 #[tauri::command]
 async fn open() -> String {
-    let Some(file_path) = FileDialogBuilder::new().pick_file() else {
-        return String::new();
-    };
-    std::fs::read_to_string(file_path).unwrap_or_default()
+    FileDialogBuilder::new()
+        .pick_file()
+        .unwrap_or_else(|| PathBuf::new())
+        .to_string_lossy()
+        .to_string()
 }

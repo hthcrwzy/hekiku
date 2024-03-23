@@ -1,4 +1,5 @@
 import type { Config } from "tailwindcss";
+import plugin from "tailwindcss/plugin";
 
 const config: Config = {
   content: [
@@ -15,6 +16,22 @@ const config: Config = {
       },
     },
   },
-  plugins: [],
+  plugins: [
+    plugin(function ({ addUtilities, addComponents, e, config }) {
+      const newUtilities = {
+        ".horizontal-tb": {
+          writingMode: "horizontal-tb"
+        },
+        ".vertical-rl": {
+          writingMode: "vertical-rl"
+        },
+        ".vertical-lr": {
+          writingMode: "vertical-lr"
+        },
+      };
+
+      addUtilities(newUtilities);
+    }),
+  ],
 };
 export default config;
